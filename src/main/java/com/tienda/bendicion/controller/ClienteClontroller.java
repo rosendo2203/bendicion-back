@@ -28,7 +28,7 @@ public class ClienteClontroller {
 
 	@Autowired
 	ClienteRepository clienteRepository;
-
+	
 	@GetMapping("/clientes")
 	public ResponseEntity<List<Cliente>> getAllClientes(@RequestParam(required = false) String nombrecliente) {
 
@@ -55,6 +55,7 @@ public class ClienteClontroller {
 
 	}
 
+	
 	@GetMapping("/getcedulaclientes/{cedulacliente}")
 	public ResponseEntity<List<Cliente>> getClientesByCedula(@PathVariable("cedulacliente") Integer cedulacliente) {
 

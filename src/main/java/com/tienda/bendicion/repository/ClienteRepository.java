@@ -10,6 +10,8 @@ public interface ClienteRepository extends MongoRepository<Cliente, String>{
 
 	List<Cliente> findByNombrecliente(String nombrecliente);
 	List<Cliente>findByCedulacliente(Integer cedulacliente);
+	
+	
 	/*
 	List<Cliente>finfByEmailcliente(String emailcliente);
 	

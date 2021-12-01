@@ -28,7 +28,7 @@ import com.tienda.bendicion.repository.ProductoRepository;
 public class ProductoController {
 	@Autowired
 	ProductoRepository productoRepository;
-
+	
 	@GetMapping("/productos")
 	public ResponseEntity<List<Producto>> getAllProductos(@RequestParam(required = false) Integer codigoproducto) {
 		try {
