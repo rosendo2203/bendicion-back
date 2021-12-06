@@ -29,6 +29,22 @@ public class ClienteClontroller {
 	@Autowired
 	ClienteRepository clienteRepository;
 	
+	@GetMapping("/clienteslista")
+	public ResponseEntity<List<Cliente>> getAllclienteslista() {
+		try {
+			List<Cliente> cliente = new ArrayList<Cliente>();
+
+			cliente = clienteRepository.findAll();
+
+			if (cliente.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+
+			return new ResponseEntity<>(cliente, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	@GetMapping("/clientes")
 	public ResponseEntity<List<Cliente>> getAllClientes(@RequestParam(required = false) String nombrecliente) {
 

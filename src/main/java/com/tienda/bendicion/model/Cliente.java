@@ -1,4 +1,4 @@
-package com.tienda.bendicion.model;
+	package com.tienda.bendicion.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
