@@ -33,6 +33,8 @@ public class Venta {
 		this.valorventa = valorventa;
 	}
 
+
+
 	public String getId() {
 		return id;
 	}

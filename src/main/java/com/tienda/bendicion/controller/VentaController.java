@@ -124,8 +124,13 @@ public class VentaController {
 	@PostMapping("/ventas")
 	public ResponseEntity<Venta> createVentas(@RequestBody Venta venta) {
 		try {
-			Venta _venta = ventaRepository.save(new Venta(venta.getCodigoventa(), venta.getCedulacliente(),
-					venta.getUsernameusuario(), venta.getIvaventa(), venta.getTotalventa(), venta.getValorventa()));
+			Venta _venta = ventaRepository.save(new Venta(
+					venta.getCodigoventa(), 
+					venta.getCedulacliente(),
+					venta.getUsernameusuario(), 
+					venta.getIvaventa(), 
+					venta.getTotalventa(), 
+					venta.getValorventa()));
 			// si lo cree guardo en 200
 			return new ResponseEntity<>(_venta, HttpStatus.CREATED);
 		} catch (Exception e) {
