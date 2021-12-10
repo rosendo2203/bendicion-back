@@ -128,9 +128,11 @@ public class VentaController {
 					venta.getCodigoventa(), 
 					venta.getCedulacliente(),
 					venta.getUsernameusuario(), 
+					venta.getCedulausuario(),				
 					venta.getIvaventa(), 
 					venta.getTotalventa(), 
-					venta.getValorventa()));
+					venta.getValorventa()
+					));
 			// si lo cree guardo en 200
 			return new ResponseEntity<>(_venta, HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -138,5 +140,60 @@ public class VentaController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	@GetMapping("/ventas/consecutivo")
+	public ResponseEntity<Long> getVentaConsecutivo() {
+		try {
+			
+		ArrayList<Venta> aux = (ArrayList<Venta>) ventaRepository.findAll();
+		System.out.println(aux.size());
+		long mayor = 10001;
+		for (Venta v : aux) {
 
+			System.out.println(v);
+			if (v.getCodigoventa() > mayor) {
+				mayor = v.getCodigoventa();
+			}
+		}
+	
+		if (aux.isEmpty()) {
+			mayor=10001;
+		}
+
+		
+			return new ResponseEntity<>(mayor + 1, HttpStatus.OK);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/*
+	@GetMapping("/getciudadventa/{ciudadventa}")
+	 public ResponseEntity<List<Venta>> getVentasByCiudad(@PathVariable("ciudadventa") String ciudadventa) {
+		 
+		 try {
+		    	System.out.println(ciudadventa);
+		    	List<Venta> ventas = ventaRepository.findByCiudad(ciudadventa);
+
+		      if (ventas.isEmpty()) {
+		    	  //no encontre info
+		        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		      }
+		      //encontre info
+		      return new ResponseEntity<>(ventas, HttpStatus.OK);
+		    } catch (Exception e) {
+		    	//error algo paso
+		      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
+		  }
+*/
 }
+	
+	
+	
