@@ -1,18 +1,17 @@
+
 package com.tienda.bendicion.model;
 
 
-import org.springframework.data.annotation.Id;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Usuarios")
 public class Usuario {
-	@Id
-	private String id;
+	
 	private String username;
 	private String password;
 	private String nombrecompleto;
 	private String email;
-	
 	public Usuario(
 			String username, 
 			String password, 
@@ -23,14 +22,6 @@ public class Usuario {
 		this.password = password;
 		this.nombrecompleto = nombrecompleto;
 		this.email = email;
-	}
-	
-	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
 	}
 	public String getUsername() {
 		return username;
@@ -55,8 +46,5 @@ public class Usuario {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}	
-	public Usuario() {
-		// TODO Auto-generated constructor stub
 	}
 }

@@ -30,56 +30,40 @@ public class DetallVentaController {
 	DetalleVentasRepository dventaRepository;
 
 	@GetMapping("/detalleventas")
-	public ResponseEntity<List<DetalleVenta>> getAllDetalleVentas(
-			@RequestParam(required = false) Integer codigodetalleventa) {
+	public ResponseEntity<List<DetalleVenta>> getAllDetalleVentas(@RequestParam(required = false) String codigoproducto) {
 		try {
 			List<DetalleVenta> dventas = new ArrayList<DetalleVenta>();
 
-			if (codigodetalleventa == null) {
+			if (codigoproducto == null) {
 				dventaRepository.findAll().forEach(dventas::add);
 			} else {
-				dventaRepository.findByCodigodetalleventa(codigodetalleventa).forEach(dventas::add);
+				dventaRepository.findByCodigoproducto(codigoproducto).forEach(dventas::add);
 			}
 
 			if (dventas.isEmpty()) {
 				// error 204
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
-
-			// error 201
-			return new ResponseEntity<>(dventas, HttpStatus.OK);
-		} catch (Exception e) {
-			// error 500
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-	}
-
-	@GetMapping("/getcodigoventas/{codigoventa}")
-	public ResponseEntity<List<DetalleVenta>> getVentasByCedula(@PathVariable("codigoventa") Integer codigoventa) {
-
-		try {
-			System.out.println(codigoventa);
-			List<DetalleVenta> dventas = dventaRepository.findByCodigoventa(codigoventa);
-
-			if (dventas.isEmpty()) {
-				// no encontre info
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				// error 201
+				return new ResponseEntity<>(dventas, HttpStatus.OK);
+			} catch (Exception e) {
+				// error 500
+				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
-			// encontre info
-			return new ResponseEntity<>(dventas, HttpStatus.OK);
-		} catch (Exception e) {
-			// error algo paso
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+
 	}
 
+	
 	@PostMapping("/detalleventas")
-	public ResponseEntity<DetalleVenta> createVentas(@RequestBody DetalleVenta dvent) {
+	public ResponseEntity<DetalleVenta> createDetalleventas(@RequestBody DetalleVenta dvent) {
 		try {
-			DetalleVenta _dventa = dventaRepository.save(new DetalleVenta(dvent.getCodigodetalleventa(),
-					dvent.getCantidadproducto(), dvent.getCodigoproducto(), dvent.getCodigoventa(),
-					dvent.getValortotal(), dvent.getValorventa(), dvent.getValoriva()));
+			DetalleVenta _dventa = dventaRepository.save(new DetalleVenta(	
+					dvent.getId(),
+					dvent.getCantidadproducto(), 
+					dvent.getCodigoproducto(), 
+					dvent.getValortotal(), 
+					dvent.getValorventa(),
+					dvent.getValoriva()));
 			// si lo cree guardo en 200
 			return new ResponseEntity<>(_dventa, HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -95,10 +79,8 @@ public class DetallVentaController {
 
 		if (dventaData.isPresent()) {
 			DetalleVenta _dventa = dventaData.get();
-			_dventa.setCodigodetalleventa(dvent.getCodigodetalleventa());
 			_dventa.setCantidadproducto(dvent.getCantidadproducto());
 			_dventa.setCodigoproducto(dvent.getCodigoproducto());
-			_dventa.setCodigoventa(dvent.getCodigoventa());
 			_dventa.setValortotal(dvent.getValortotal());
 			_dventa.setValorventa(dvent.getValorventa());
 			_dventa.setValoriva(dvent.getValoriva());
@@ -132,7 +114,4 @@ public class DetallVentaController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	
-
 }

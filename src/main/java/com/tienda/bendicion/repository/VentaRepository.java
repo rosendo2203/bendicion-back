@@ -7,7 +7,7 @@ import com.tienda.bendicion.model.Venta;
 
 public interface VentaRepository extends MongoRepository<Venta, String> {
 
-	List<Venta> findByCodigoventa(Integer codigoventa);
+	List<Venta> findByConsecutivo(Integer consecutivo);
 
 	List<Venta> findByCedulacliente(Integer cedulacliente);
 

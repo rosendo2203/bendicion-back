@@ -45,6 +45,8 @@ public class ClienteClontroller {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	//Buscar un cliente por nombre
 	@GetMapping("/clientes")
 	public ResponseEntity<List<Cliente>> getAllClientes(@RequestParam(required = false) String nombrecliente) {
 
@@ -81,11 +83,11 @@ public class ClienteClontroller {
 
 			if (clientes.isEmpty()) {
 				// no encontre info
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);	
 			}
 			// encontre info
 			return new ResponseEntity<>(clientes, HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (Exception e) {	
 			// error algo paso
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -107,6 +109,8 @@ public class ClienteClontroller {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	//Actualizar un cliente 
 
 	@PutMapping("/clientes/{id}")
 	public ResponseEntity<Cliente> updateClientes(@PathVariable("id") String id, @RequestBody Cliente clie) {

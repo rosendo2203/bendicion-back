@@ -30,15 +30,15 @@ public class VentaController {
 	VentaRepository ventaRepository;
 
 	@GetMapping("/ventas")
-	public ResponseEntity<List<Venta>> getAllVentas(@RequestParam(required = false) Integer codigoventa) {
+	public ResponseEntity<List<Venta>> getAllVentas(@RequestParam(required = false) Integer consecutivo) {
 
 		try {
 			List<Venta> ventas = new ArrayList<Venta>();
-			if (codigoventa == null) {
+			if (consecutivo == null) {
 
 				ventaRepository.findAll().forEach(ventas::add);
 			} else {
-				ventaRepository.findByCodigoventa(codigoventa).forEach(ventas::add);
+				ventaRepository.findByConsecutivo(consecutivo).forEach(ventas::add);
 			}
 			if (ventas.isEmpty()) {
 				// Error 204
@@ -81,9 +81,9 @@ public class VentaController {
 
 		if (ventaData.isPresent()) {
 			Venta _venta = ventaData.get();
-			_venta.setCodigoventa(vent.getCodigoventa());
+			_venta.setConsecutivo(vent.getConsecutivo());
 			_venta.setCedulacliente(vent.getCedulacliente());
-			_venta.setUsernameusuario(vent.getUsernameusuario());
+			_venta.setUsername(vent.getUsername());
 			_venta.setIvaventa(vent.getIvaventa());
 			_venta.setTotalventa(vent.getTotalventa());
 			_venta.setValorventa(vent.getValorventa());
@@ -125,10 +125,9 @@ public class VentaController {
 	public ResponseEntity<Venta> createVentas(@RequestBody Venta venta) {
 		try {
 			Venta _venta = ventaRepository.save(new Venta(
-					venta.getCodigoventa(), 
+					venta.getConsecutivo(), 
 					venta.getCedulacliente(),
-					venta.getUsernameusuario(), 
-					venta.getCedulausuario(),				
+					venta.getUsername(), 				
 					venta.getIvaventa(), 
 					venta.getTotalventa(), 
 					venta.getValorventa()
@@ -154,16 +153,14 @@ public class VentaController {
 		for (Venta v : aux) {
 
 			System.out.println(v);
-			if (v.getCodigoventa() > mayor) {
-				mayor = v.getCodigoventa();
+			if (v.getConsecutivo() > mayor) {
+				mayor = v.getConsecutivo();
 			}
 		}
 	
 		if (aux.isEmpty()) {
 			mayor=10001;
 		}
-
-		
 			return new ResponseEntity<>(mayor + 1, HttpStatus.OK);
 		} catch (Exception e) {
 			
@@ -172,27 +169,7 @@ public class VentaController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/*
-	@GetMapping("/getciudadventa/{ciudadventa}")
-	 public ResponseEntity<List<Venta>> getVentasByCiudad(@PathVariable("ciudadventa") String ciudadventa) {
-		 
-		 try {
-		    	System.out.println(ciudadventa);
-		    	List<Venta> ventas = ventaRepository.findByCiudad(ciudadventa);
 
-		      if (ventas.isEmpty()) {
-		    	  //no encontre info
-		        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		      }
-		      //encontre info
-		      return new ResponseEntity<>(ventas, HttpStatus.OK);
-		    } catch (Exception e) {
-		    	//error algo paso
-		      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		    }
-		  }
-*/
 }
 	
 	

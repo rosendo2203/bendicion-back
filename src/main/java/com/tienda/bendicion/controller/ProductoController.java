@@ -65,8 +65,13 @@ public class ProductoController {
 	@PostMapping("/productos")
 	public ResponseEntity<Producto> createProductos(@RequestBody Producto prod) {
 		try {
-			Producto _producto = productoRepository.save(new Producto(prod.getCodigoproducto(), prod.getIvacompra(),
-					prod.getNitproveedor(), prod.getNombreproducto(), prod.getPreciocompra(), prod.getPrecioventa()));
+			Producto _producto = productoRepository.save(new Producto(
+					prod.getCodigoproducto(),
+					prod.getIvacompra(),
+					prod.getNitproveedor(),
+					prod.getNombreproducto(),
+					prod.getPreciocompra(), 
+					prod.getPrecioventa()));
 			return new ResponseEntity<>(_producto, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

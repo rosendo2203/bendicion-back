@@ -3,7 +3,6 @@
 	import java.util.ArrayList;
 	import java.util.List;
 	import java.util.Optional;
-
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
@@ -27,18 +26,18 @@ import com.tienda.bendicion.repository.UsuarioRepository;
 @RequestMapping("/api")
 public class UsuarioController {
 	
-	@Autowired
-	UsuarioRepository  usuarioRepository;
-
+		@Autowired
+		UsuarioRepository  usernameRepository;
+	
 	@GetMapping("/usuarios")
 	public ResponseEntity<List<Usuario>> getAllUsuarios(@RequestParam(required = false) String username) {
 		try {
 			List<Usuario> usuarios = new ArrayList<Usuario>();
 
 			if (username == null) {
-				usuarioRepository.findAll().forEach(usuarios::add);
+				usernameRepository.findAll().forEach(usuarios::add);
 			} else {
-				usuarioRepository.findByUsername(username).forEach(usuarios::add);
+				usernameRepository.findByUsername(username).forEach(usuarios::add);
 			}
 
 			if (usuarios.isEmpty()) {
@@ -52,54 +51,63 @@ public class UsuarioController {
 
 	}
 	
-	  @PostMapping("/usuarios")
+	////////
+	
+	//////
+//////////
+	 @PostMapping("/usuarios")
 	  public ResponseEntity<Usuario> createUsuarios(@RequestBody Usuario user) {
 		    try {
-		      Usuario _usuario = usuarioRepository.save(new Usuario(user.getUsername(),user.getPassword(),user.getNombrecompleto(),user.getEmail()));
+		      Usuario _usuario = usernameRepository.save(new  Usuario(
+		    		  user.getUsername(),
+		    		  user.getPassword(),
+		    		  user.getNombrecompleto(),
+		    		  user.getEmail()
+		    		  ));
 		      return new ResponseEntity<>(_usuario, HttpStatus.CREATED);
 		    } catch (Exception e) {
 		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		    }
 		  }
-
+/////////
 	  @PutMapping("/usuarios/{id}")
 	  public ResponseEntity<Usuario> updateUsuarios(@PathVariable("id") String id, @RequestBody Usuario user) {
-	    Optional<Usuario> usuarioData = usuarioRepository.findById(id);
+	    Optional<Usuario> usuarioData = usernameRepository.findById(id);
 
 	    if (usuarioData.isPresent()) {
 	      Usuario _usuario = usuarioData.get();
 	      _usuario.setUsername(user.getUsername());
 	      _usuario.setPassword(user.getPassword());
-	      return new ResponseEntity<>(usuarioRepository.save(_usuario), HttpStatus.OK);
+	      return new ResponseEntity<>(usernameRepository.save(_usuario), HttpStatus.OK);
 	    } else {
 	      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	    }
 	  }
-
+///////
 	  @DeleteMapping("/usuarios/{id}")
 	  public ResponseEntity<HttpStatus> deleteUsuarios(@PathVariable("id") String id) {
 	    try {
-	      usuarioRepository.deleteById(id);
+	    	usernameRepository.deleteById(id);
 	      return new ResponseEntity<>(HttpStatus.OK);
 	    } catch (Exception e) {
 	      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
 	  }
-
+///////
 	  @DeleteMapping("/usuarios")
 	  public ResponseEntity<HttpStatus> deleteAllUsuarioss() {
 	    try {
-	      usuarioRepository.deleteAll();
+	    	usernameRepository.deleteAll();
 	      return new ResponseEntity<>(HttpStatus.OK);
 	    } catch (Exception e) {
 	      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
 	  }
-
+/////
 	  @GetMapping("/usuarios/{username}")
-	  public ResponseEntity<List<Usuario>> findByUsername(@PathVariable("username") String username) {
+	  public ResponseEntity<List<Usuario>> getUsuarios(@PathVariable("username") String username) {
 	    try {
-	      List<Usuario> usuarios = usuarioRepository.findByUsername(username);
+	      List<Usuario> usuarios = usernameRepository.findByUsername(username);
 
 	      if (usuarios.isEmpty()) {
 	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);

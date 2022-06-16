@@ -1,13 +1,12 @@
-	package com.tienda.bendicion.model;
+package com.tienda.bendicion.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
+
 
 public class Cliente {
 	
 	@Id
 	private String id;
-	@Indexed(unique=true)
 	private Integer cedulacliente;
 	private String direccioncliente;
 	private String emailcliente;
@@ -64,6 +63,5 @@ public class Cliente {
 		this.telefonocliente = telefonocliente;
 	}
 	
-	
-	
+
 }
